@@ -1,4 +1,6 @@
-function BaseNavbarLink(pname, plink) {
+import { IBaseSection } from "../IBaseSection.js";
+
+export function BaseNavbarLink(pname, plink) {
 
 
     let path = "./app/view/navbar/BaseNavbarLink.html";

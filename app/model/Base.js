@@ -1,6 +1,7 @@
-function Base() {
-    document.write("<link rel='stylesheet' href='css/bootstrap.min.css'>");
+import { SectionLoader } from "./SectionLoader.js";
+import { BaseFailure } from "./ErrorHandler.js";
 
+export function Base() {
     /**
      * is used to set the title of a page
      * @param {string} title
@@ -22,9 +23,10 @@ function Base() {
      * @param section
      */
     this.addSections = function (section) {
-        setSection(section).then(function (){
-            $("body").append(content);
-           section.run(content.id);
+        const c = new SectionLoader();
+        c.setSection(section).then(function () {
+            $("body").append(c.getContent());
+            section.run(c.getContent().id);
         });
 
 

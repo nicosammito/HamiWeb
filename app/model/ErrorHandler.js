@@ -1,4 +1,4 @@
-function BaseFailure() {
+export function BaseFailure() {
 
     this.load = function (error) {
         document.write("<link rel='stylesheet' href='css/bootstrap.min.css'>");

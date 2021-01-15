@@ -1,10 +1,14 @@
-const BaseNavbarConst = {
+import { IBaseSection } from "../IBaseSection.js";
+import { BaseFailure } from "../ErrorHandler.js";
+import {SectionLoader} from "../SectionLoader.js";
+
+export const BaseNavbarConst = {
     normal: "normal",
     stickytop: "stickytop",
     fixed: "fixed"
 }
 
-function BaseNavbar(navbarType = BaseNavbarConst.normal) {
+export function BaseNavbar(navbarType = BaseNavbarConst.normal) {
 
     let navbarAttributeType = navbarType;
     let name = "{ Company name }";
@@ -57,9 +61,10 @@ function BaseNavbar(navbarType = BaseNavbarConst.normal) {
             navbaritem.innerHTML = "";
             navbaritems.forEach(
                 function (item, index, array) {
-                    setSection(item).then(function () {
-                        navbaritem.appendChild(content);
-                        item.run(content.id);
+                    const setS = new SectionLoader();
+                    setS.setSection(item).then(function () {
+                        navbaritem.appendChild(setS.getContent());
+                        item.run(setS.getContent().id);
                     })
                 }
             )
@@ -82,6 +87,5 @@ function BaseNavbar(navbarType = BaseNavbarConst.normal) {
     }
 
 }
-
 
 BaseNavbar.prototype = IBaseSection;
