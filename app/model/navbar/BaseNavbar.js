@@ -2,10 +2,15 @@ import { IBaseSection } from "../IBaseSection.js";
 import { BaseFailure } from "../ErrorHandler.js";
 import {SectionLoader} from "../SectionLoader.js";
 
-export const BaseNavbarConst = {
+export const BaseNavbarType = {
     normal: "normal",
     stickytop: "stickytop",
     fixed: "fixed"
+}
+
+export const BaseNavbarPosition = {
+    right : "right",
+    left : "left"
 }
 
 export function BaseNavbar(navbarType = BaseNavbarConst.normal) {
@@ -13,14 +18,16 @@ export function BaseNavbar(navbarType = BaseNavbarConst.normal) {
     let navbarAttributeType = navbarType;
     let name = "{ Company name }";
     let path = "./app/view/navbar/BaseNavbar.html";
-    let navbaritems = [];
+    let navbaritemsleft = [];
+    let navbaritemsright = [];
     let contentid;
 
 
     this.run = async function (c) {
         contentid = c;
         await setNavbarType();
-        await setNavbarItems();
+        await setNavbarItemsLeft();
+        await setNavbarItemsRight();
         await setName();
     }
 
@@ -32,18 +39,24 @@ export function BaseNavbar(navbarType = BaseNavbarConst.normal) {
         name = pname;
     }
 
-    this.addNavbarItem = function (pitem) {
-        navbaritems.push(pitem);
+    this.addNavbarItem = function (pitem, pposotion) {
+
+        if(pposotion === BaseNavbarPosition.left){
+            navbaritemsleft.push(pitem);
+        }else if (pposotion === BaseNavbarPosition.right){
+            navbaritemsright.push(pitem);
+        }
+
     }
 
     async function setNavbarType() {
         try {
             const navbar = document.getElementById(contentid);
             switch (navbarAttributeType) {
-                case BaseNavbarConst.stickytop:
+                case BaseNavbarType.stickytop:
                     navbar.className += " sticky-top";
                     break;
-                case BaseNavbarConst.fixed:
+                case BaseNavbarType.fixed:
                     navbar.className += " fixed-top";
                     break;
                 default:
@@ -55,11 +68,31 @@ export function BaseNavbar(navbarType = BaseNavbarConst.normal) {
         }
     }
 
-    async function setNavbarItems() {
+    async function setNavbarItemsLeft() {
         try {
             const navbaritem = document.getElementById(contentid).getElementsByClassName("navbar-nav")[0];
             navbaritem.innerHTML = "";
-            navbaritems.forEach(
+            navbaritemsleft.forEach(
+                function (item, index, array) {
+                    const setS = new SectionLoader();
+                    setS.setSection(item).then(function () {
+                        navbaritem.appendChild(setS.getContent());
+                        item.run(setS.getContent().id);
+                    })
+                }
+            )
+        } catch (e) {
+            const error = new BaseFailure();
+            error.load(e.message);
+
+        }
+
+    }
+    async function setNavbarItemsRight() {
+        try {
+            const navbaritem = document.getElementById(contentid).getElementsByClassName("list-unstyled")[0];
+            navbaritem.innerHTML = "";
+            navbaritemsright.forEach(
                 function (item, index, array) {
                     const setS = new SectionLoader();
                     setS.setSection(item).then(function () {

@@ -10,6 +10,7 @@ export function SectionLoader() {
     this.setSection = async function (section) {
         await this.loadFile(section).then(function () {
             const c = document.createElement("section");
+            c.style.padding = "0px";
             c.id = Math.floor(Math.random() * 1000000000000000000000000000000000000).toString();
             c.innerHTML = response;
             content = c;

@@ -16,16 +16,17 @@
 <body>
 <script type="module">
 
-    import { Base, BaseNavbar, BaseNavbarLink, BaseNavbarConst } from "./hamiweb.min.js";
+    import { Base, BaseNavbar, BaseNavbarLink, BaseNavbarType,BaseNavbarPosition, BaseNavbarButton } from "./hamiweb.min.js";
     //base
     const base = new Base();
     base.setTitle("YourServer.net - New Minecraft Server");
 
     //Navbar
-    const baseNavbar = new BaseNavbar(BaseNavbarConst.normal);
+    const baseNavbar = new BaseNavbar(BaseNavbarType.normal);
     baseNavbar.setName("YourServer.net");
-    baseNavbar.addNavbarItem(new BaseNavbarLink("Startseite", "index.html"));
-    baseNavbar.addNavbarItem(new BaseNavbarLink("Startseite", "index.html"));
+    baseNavbar.addNavbarItem(new BaseNavbarLink("Startseite", "index.html"), BaseNavbarPosition.left);
+    baseNavbar.addNavbarItem(new BaseNavbarLink("Über Uns", "index.html"), BaseNavbarPosition.left);
+    baseNavbar.addNavbarItem(new BaseNavbarButton("Team", "index.html", "btn-success"), BaseNavbarPosition.right);
     base.addSections(baseNavbar);
 
 </script>
