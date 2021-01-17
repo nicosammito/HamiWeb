@@ -1,6 +1,6 @@
 import {IBaseSection} from "./IBaseSection.js";
 import {BaseFailure} from "./ErrorHandler.js";
-import {SectionLoader} from "./SectionLoader";
+import {SectionLoader} from "./SectionLoader.js";
 
 export function BaseContainer() {
 
@@ -26,13 +26,14 @@ export function BaseContainer() {
         try{
             const doc = document.getElementById(content).getElementsByClassName("container")[0];
             doc.innerHTML = "";
-            sections.forEach(function (value, index, array) {
-                    const setSection = new SectionLoader();
-                    setSection.loadFile(value).then(function () {
-                        doc.appendChild(setSection.getContent());
-                        value.run(setSection.getContent().id);
-                    });
-                });
+            sections.forEach(
+                function (item, index, array) {
+                    const setS = new SectionLoader();
+                    setS.setSection(item).then(function () {
+                        doc.appendChild(setS.getContent());
+                        item.run(setS.getContent().id);
+                    })
+                })
         }catch (e) {
             const error = new BaseFailure();
             error.load(e);
