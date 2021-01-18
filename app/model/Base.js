@@ -1,7 +1,10 @@
-import { SectionLoader } from "./SectionLoader.js";
-import { BaseFailure } from "./ErrorHandler.js";
+import {SectionLoader} from "./SectionLoader.js";
+import {BaseFailure} from "./ErrorHandler.js";
 
 export function Base() {
+
+    let sections = [];
+    let tempContent;
     /**
      * is used to set the title of a page
      * @param {string} title
@@ -22,14 +25,37 @@ export function Base() {
      *
      * @param section
      */
-    this.addSections = function (section) {
-        const c = new SectionLoader();
-        c.setSection(section).then(function () {
-            $("body").append(c.getContent());
-            section.run(c.getContent().id);
-        });
+    this.addSections = async function (section) {
+        sections.push(section);
+    }
 
 
+    this.load = async function (i) {
+
+        let temp;
+        if(i === undefined){
+            temp = 0;
+        }else {
+            temp = i;
+        }
+
+        const array = sections[temp];
+        loadSection(array).then(() => {
+            this.load(temp+1);
+        })
+
+
+    }
+
+    function loadSection(section) {
+        return new Promise(resolve => {
+            const c = new SectionLoader();
+            c.setSection(section).then(c => {
+                $("body").append(c);
+                section.run(c.id);
+                resolve(true);
+            });
+        })
     }
 
 }

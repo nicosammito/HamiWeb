@@ -17,11 +17,16 @@ export function BaseNavbar(navbarType = BaseNavbarConst.normal) {
 
     let navbarAttributeType = navbarType;
     let name = "{ Company name }";
-    let path = "./app/view/navbar/BaseNavbar.html";
     let navbaritemsleft = [];
     let navbaritemsright = [];
     let contentid;
 
+
+    this.getPath = "./app/view/navbar/BaseNavbar.html";
+
+    this.getClassNames = ["navbar","navbar-expand-lg", "navbar-light", "bg-light"];
+
+    this.getTagName = "nav";
 
     this.run = async function (c) {
         contentid = c;
@@ -29,10 +34,6 @@ export function BaseNavbar(navbarType = BaseNavbarConst.normal) {
         await setNavbarItemsLeft();
         await setNavbarItemsRight();
         await setName();
-    }
-
-    this.getPath = function () {
-        return path;
     }
 
     this.setName = function (pname) {
@@ -63,6 +64,7 @@ export function BaseNavbar(navbarType = BaseNavbarConst.normal) {
                     break;
             }
         } catch (e) {
+            console.error(e);
             const error = new BaseFailure();
             error.load(e.message);
         }
@@ -75,13 +77,14 @@ export function BaseNavbar(navbarType = BaseNavbarConst.normal) {
             navbaritemsleft.forEach(
                 function (item, index, array) {
                     const setS = new SectionLoader();
-                    setS.setSection(item).then(function () {
-                        navbaritem.appendChild(setS.getContent());
-                        item.run(setS.getContent().id);
+                    setS.setSection(item).then(c =>{
+                        navbaritem.appendChild(c);
+                        item.run(c.id);
                     })
                 }
             )
         } catch (e) {
+            console.error(e);
             const error = new BaseFailure();
             error.load(e.message);
 
@@ -95,13 +98,14 @@ export function BaseNavbar(navbarType = BaseNavbarConst.normal) {
             navbaritemsright.forEach(
                 function (item, index, array) {
                     const setS = new SectionLoader();
-                    setS.setSection(item).then(function () {
-                        navbaritem.appendChild(setS.getContent());
-                        item.run(setS.getContent().id);
+                    setS.setSection(item).then(c =>{
+                        navbaritem.appendChild(c);
+                        item.run(c.id);
                     })
                 }
             )
         } catch (e) {
+            console.error(e);
             const error = new BaseFailure();
             error.load(e.message);
 
@@ -113,6 +117,7 @@ export function BaseNavbar(navbarType = BaseNavbarConst.normal) {
         try {
             document.getElementById(contentid).getElementsByClassName("navbar-brand")[0].innerHTML = name;
         } catch (e) {
+            console.error(e);
             const error = new BaseFailure();
             error.load(e.message);
         }

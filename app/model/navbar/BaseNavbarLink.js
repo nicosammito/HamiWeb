@@ -3,7 +3,6 @@ import { IBaseSection } from "../IBaseSection.js";
 export function BaseNavbarLink(pname, plink) {
 
 
-    let path = "./app/view/navbar/BaseNavbarLink.html";
     let name = "{ Name }";
     let link = "#";
     let content_id;
@@ -13,9 +12,12 @@ export function BaseNavbarLink(pname, plink) {
     if(plink != null){
         link = plink;
     }
-    this.getPath = function (){
-        return path;
-    }
+
+    this.getPath = "./app/view/navbar/BaseNavbarLink.html";
+
+    this.getClassNames = ["nav-item"];
+
+    this.getTagName = "li";
 
     this.run = async function (c){
         content_id = c;
