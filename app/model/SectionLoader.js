@@ -1,58 +1,61 @@
 import {BaseFailure} from "./ErrorHandler.js";
 
+let count = 1;
+
 export function SectionLoader() {
-    let response;
-    let content;
+
     /**
      *
      * @param section
      */
-    this.setSection = async function (section) {
-        await this.loadFile(section).then(function () {
-            const c = document.createElement("section");
-            c.style.padding = "0px";
-            c.id = Math.floor(Math.random() * 1000000000000000000000000000000000000).toString();
-            c.innerHTML = response;
-            content = c;
+    this.setSection = function (section) {
+        return new Promise((resolve) => {
+            loadSection(section).then(r => resolve(r));
         });
-
-
     }
+
+    function loadSection(section) {
+        return new Promise((resolve) => {
+            loadFile(section).then(response => {
+                const dom = document.createElement(section.getTagName.toString());
+                section.getClassNames.forEach(value => {
+                    dom.classList.add(value);
+                });
+                dom.id = count.toString();
+                count++;
+                dom.innerHTML = response;
+                resolve(dom);
+            });
+        });
+    }
+
     /**
      *
      * @param section
      * @returns {Promise<string>}
      */
-    this.loadFile = async function (section) {
+        function loadFile(section) {
         try {
-            await $.ajax({
-                url: section.getPath(),
-                context: document.body,
-                statusCode: {
-                    404: function (response) {
-                        const error = new BaseFailure();
-                        error.load("The given path to the file is wrong or broken. Please make sure you only implement files that are exists under the path.");
-                    },
-                    200: function (r) {
-                        response = r;
-                    },
-                    default: function (response) {
+            return new Promise((resolve) => {
+                const http = new XMLHttpRequest();
+                http.onreadystatechange = () => {
+                    if (http.readyState === XMLHttpRequest.DONE && http.status === 200) {
+                        resolve(http.response);
+                    } else if (http.readyState === XMLHttpRequest.DONE) {
                         const error = new BaseFailure();
                         error.load("The given path to the file is wrong or broken. Please make sure you only implement files that are exists under the path.");
                     }
-
                 }
-
+                if(section.getPath === undefined || section.getPath === null){
+                    http.open("GET", "./app/view/BaseEmpty.html", true);
+                }else {
+                    http.open("GET", section.getPath, true);
+                }
+                http.send();
             });
         } catch (e) {
             const error = new BaseFailure();
             error.load(e);
-
         }
-
-
-    }
-    this.getContent = function () {
-        return content;
     }
 }

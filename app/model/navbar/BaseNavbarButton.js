@@ -4,7 +4,6 @@ import {BaseFailure} from "../ErrorHandler.js";
 export function BaseNavbarButton(pText, pLink, pClass) {
 
 
-    let path = "./app/view/navbar/BaseNavbarButton.html"
     let link = "#";
     let text = "Button";
     let classes = [];
@@ -20,6 +19,12 @@ export function BaseNavbarButton(pText, pLink, pClass) {
         classes.push(pClass);
     }
 
+    this.getPath = "./app/view/navbar/BaseNavbarButton.html";
+
+    this.getClassNames = ["li"];
+
+    this.getTagName = "nav-item";
+
     this.run = async function (c) {
         content = c;
         await setLink();
@@ -27,9 +32,6 @@ export function BaseNavbarButton(pText, pLink, pClass) {
         await addClasses();
     }
 
-    this.getPath = function (){
-        return path;
-    }
 
 
     this.setLink = function (plink) {
