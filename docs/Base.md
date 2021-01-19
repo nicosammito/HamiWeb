@@ -4,6 +4,12 @@
 
 The Base is needed to add created sections and run the html compiler.
 
+### Import base section
+```javascript 
+import { Base } from "not set yet";
+```
+With this function you can set the title of your html file.
+
 ### Instantiate Base
 ```javascript 
 const base = new Base();
