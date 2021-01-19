@@ -8,28 +8,65 @@ The Base is needed to add created sections and run the html compiler.
 ```javascript 
 import { Base } from "not set yet";
 ```
-With this function you can set the title of your html file.
+This is how you import the Base section
 
 ### Instantiate Base
-```javascript 
+```javascript
+/**
+ * @type {Base}
+ * @return Promise<void>
+ */
 const base = new Base();
 ```
-You need to instantiate the base to add sections and run HamiWeb.
+You need to instantiate the Base to add sections and run HamiWeb.
 
 ### Set html title
-```javascript 
-base.setTitle("YourWebsite.com - Your Slogan");
+```javascript
+/**
+ * @param {string} title
+ * @return Promise<void>
+ */
+base.setTitle(title);
 ```
 With this function you can set the title of your html file.
 
 ### Add section
-```javascript 
+```javascript
+/**
+ * @param section
+ * @return Promise<void>
+ */
 base.addSections(section);
 ```
 This function is needed to add your created sections, so they can be added to html
 
 ### Run base instance
-```javascript 
+```javascript
+/**
+ * @return Promise<void>
+ */
 base.load();
 ```
 This function will load and run all sections and add them to html
+
+### Example
+```javascript
+const base = new Base();
+
+const container = new BaseContainer([
+    new BaseRow([
+        new BaseColumn([
+            new BasePadding([
+                //new BaseCard()
+            ], BasePaddingSize.padding_10px)
+        ], BaseColumnSize.col_md_6),
+        new BaseColumn([
+            new BasePadding([
+                //new BaseCard()
+            ], BasePaddingSize.padding_10px)
+        ], BaseColumnSize.col_md_6)
+    ])
+])
+base.addSections(container);
+base.load();
+```
