@@ -18,9 +18,11 @@ export function SectionLoader() {
         return new Promise((resolve) => {
             loadFile(section).then(response => {
                 const dom = document.createElement(section.getTagName.toString());
-                section.getClassNames.forEach(value => {
-                    dom.classList.add(value);
-                });
+                if(section.getClassNames != null){
+                    section.getClassNames.forEach(value => {
+                        dom.classList.add(value);
+                    });
+                }
                 dom.id = count.toString();
                 count++;
                 dom.innerHTML = response;
@@ -46,12 +48,14 @@ export function SectionLoader() {
                         error.load("The given path to the file is wrong or broken. Please make sure you only implement files that are exists under the path.");
                     }
                 }
-                if(section.getPath === undefined || section.getPath === null){
-                    http.open("GET", "./app/view/BaseEmpty.html", true);
-                }else {
-                    http.open("GET", section.getPath, true);
-                }
-                http.send();
+                try{
+                    if(section.getPath === undefined || section.getPath === null){
+                        http.open("GET", "./app/view/BaseEmpty.html", true);
+                    }else {
+                        http.open("GET", section.getPath, true);
+                    }
+                    http.send();
+                }catch (e) {}
             });
         } catch (e) {
             const error = new BaseFailure();

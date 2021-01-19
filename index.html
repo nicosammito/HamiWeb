@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <link rel='stylesheet' href='./css/bootstrap.min.css'>
+    <link rel='stylesheet' href='./css/main.css'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
@@ -25,8 +25,10 @@
         BaseNavbarPosition,
         BaseNavbarButton,
         BaseContainer,
-        BaseRow, BaseColumn, BaseColumnSize,
+        BaseRow, BaseColumn, BaseColumnSize, BasePadding, BasePaddingSize,
     } from "./hamiweb.min.js";
+
+
 
 
     //base
@@ -46,11 +48,15 @@
     const container = new BaseContainer([
         new BaseRow([
             new BaseColumn([
-                baseNavbar
-            ], BaseColumnSize.col_md_7),
+                new BasePadding([
+                    baseNavbar
+                ], BasePaddingSize.padding_10px)
+            ], BaseColumnSize.col_md_6),
             new BaseColumn([
-                baseNavbar
-            ], BaseColumnSize.col_md_5)
+                new BasePadding([
+                    baseNavbar
+                ], BasePaddingSize.padding_10px)
+            ], BaseColumnSize.col_md_6)
         ])
     ])
     base.addSections(container);
