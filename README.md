@@ -66,7 +66,7 @@ const container = new BaseContainer([
 ])
 base.addSections(container);
 
-base.load()
+base.load();
 ```
 ## Contributors
 - Thanks to [Henrik Steffens](https://github.com/Th3Ph4nt0m) for section ideas
