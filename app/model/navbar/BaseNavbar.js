@@ -13,7 +13,7 @@ export const BaseNavbarPosition = {
     left : "left"
 }
 
-export function BaseNavbar(navbarType = BaseNavbarConst.normal) {
+export function BaseNavbar(navbarType) {
 
     let navbarAttributeType = navbarType;
     let name = "{ Company name }";
