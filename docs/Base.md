@@ -1,6 +1,6 @@
 ## Base Section
 
-[Back to navigation](link)
+[Back to navigation](https://github.com/nicosammito/HamiWeb/tree/feature/docs/docs)
 
 The Base is needed to add created sections and run the html compiler.
 
