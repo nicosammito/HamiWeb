@@ -11,7 +11,7 @@ and mobile friendly.**
 ```html
 <head>
 
-<link rel='stylesheet' href='./css/bootstrap.min.css'>
+<link rel='stylesheet' href='url(its not set because of prealpha version)'>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
@@ -19,12 +19,12 @@ and mobile friendly.**
 </head>
 <body>
 <script type="module">
-import { Base } from "url";
+import { Base } from "url(its not set because of prealpha version";
 </script>
 </body>
 ```
 
-## Basic usage of ```HamiWeb```
+## Basic usage of ```HamiWeb``` with Navbar example
 
 ```javascript
 //base
@@ -40,5 +40,30 @@ baseNavbar.addNavbarItem(new BaseNavbarLink("About", "about.html"), BaseNavbarPo
 baseNavbar.addNavbarItem(new BaseNavbarButton("Contact", "contact.html", "btn-success"), BaseNavbarPosition.right);
 
 base.addSections(baseNavbar);
-
 ```
+## Basic usage of ```HamiWeb``` with Container example
+
+```javascript
+//base
+const base = new Base();
+
+//Container with row and columns
+const container = new BaseContainer([
+    new BaseRow([
+        new BaseColumn([
+            new BasePadding([
+                //new BaseCard()
+            ], BasePaddingSize.padding_10px)
+        ], BaseColumnSize.col_md_6),
+        new BaseColumn([
+            new BasePadding([
+                //new BaseCard()
+            ], BasePaddingSize.padding_10px)
+        ], BaseColumnSize.col_md_6)
+    ])
+])
+base.addSections(container);
+```
+## Contributors
+ - Thanks to [Henrik Steffens](https://github.com/Th3Ph4nt0m) for section ideas
+- Thanks to [Niklas van Schrick](https://github.com/Taucher2003) for supporting this project
