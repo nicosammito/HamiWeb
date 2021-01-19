@@ -40,6 +40,8 @@ baseNavbar.addNavbarItem(new BaseNavbarLink("About", "about.html"), BaseNavbarPo
 baseNavbar.addNavbarItem(new BaseNavbarButton("Contact", "contact.html", "btn-success"), BaseNavbarPosition.right);
 
 base.addSections(baseNavbar);
+
+base.load();
 ```
 ## Basic usage of ```HamiWeb``` with Container example
 
@@ -63,6 +65,8 @@ const container = new BaseContainer([
     ])
 ])
 base.addSections(container);
+
+base.load()
 ```
 ## Contributors
 - Thanks to [Henrik Steffens](https://github.com/Th3Ph4nt0m) for section ideas
