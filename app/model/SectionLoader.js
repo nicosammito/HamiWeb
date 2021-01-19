@@ -18,9 +18,11 @@ export function SectionLoader() {
         return new Promise((resolve) => {
             loadFile(section).then(response => {
                 const dom = document.createElement(section.getTagName.toString());
-                section.getClassNames.forEach(value => {
-                    dom.classList.add(value);
-                });
+                if(section.getClassNames != null){
+                    section.getClassNames.forEach(value => {
+                        dom.classList.add(value);
+                    });
+                }
                 dom.id = count.toString();
                 count++;
                 dom.innerHTML = response;
