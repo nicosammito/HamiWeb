@@ -30,12 +30,6 @@
 
 
 
-
-    //base
-    const base = new Base();
-    base.setTitle("YourServer.net - New Minecraft Server");
-
-
     //Navbar
     const baseNavbar = new BaseNavbar(BaseNavbarType.normal);
     baseNavbar.setName("YourServer.net");
@@ -43,8 +37,7 @@
     baseNavbar.addNavbarItem(new BaseNavbarLink("Über Uns", "index.html"), BaseNavbarPosition.left);
     baseNavbar.addNavbarItem(new BaseNavbarButton("Team", "index.html", "btn-success"), BaseNavbarPosition.right);
 
-    base.addSections(baseNavbar);
-
+    //Container
     const container = new BaseContainer([
         new BaseRow([
             new BaseColumn([
@@ -58,8 +51,15 @@
                 ], BasePaddingSize.padding_10px)
             ], BaseColumnSize.col_md_6)
         ])
-    ])
-    base.addSections(container);
+    ]);
+
+    //base
+    const base = new Base({
+        title: "test",
+        navbar: baseNavbar,
+        child: container
+    });
+
 
     base.load();
 </script>

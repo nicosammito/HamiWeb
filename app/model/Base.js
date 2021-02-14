@@ -1,62 +1,79 @@
 import {SectionLoader} from "./SectionLoader.js";
 import {BaseFailure} from "./ErrorHandler.js";
 
-export function Base() {
+export class Base {
 
-    let sections = [];
-    let tempContent;
-    /**
-     * is used to set the title of a page
-     * @param {string} title
-     */
-    this.setTitle = function (title) {
-        document.getElementsByTagName("head")[0].innerHTML += "<title>" + title + "</title>";
-
-    }
+    title;
+    navbar;
+    child;
 
 
-    this.addCSS = function (path) {
+    constructor(obj) {
 
-        document.getElementsByTagName("head")[0].innerHTML += "<link rel='stylesheet' href='" + path + "'>";
-
-    }
-
-    /**
-     *
-     * @param section
-     */
-    this.addSections = async function (section) {
-        sections.push(section);
-    }
-
-
-    this.load = async function (i) {
-
-        let temp;
-        if(i === undefined){
-            temp = 0;
-        }else {
-            temp = i;
+        if (obj === undefined) {
+            throw new Error("Object is undefined");
         }
 
-        const array = sections[temp];
-        loadSection(array).then(() => {
-            this.load(temp+1);
-        })
+        if (obj.title !== undefined) {
+            this.title = obj.title;
+        }
 
+        if (obj.navbar !== undefined) {
+            this.navbar = obj.navbar;
+        }
+        if (obj.child !== undefined) {
+            this.child = obj.child;
+        }
 
     }
 
-    function loadSection(section) {
-        return new Promise(resolve => {
-            const c = new SectionLoader();
-            c.setSection(section).then(c => {
-                $("body").append(c);
-                section.run(c.id);
-                resolve(true);
-            });
-        })
+
+    load = async function () {
+
+
+        await setTitle(this.title);
+        await setNavbar(this.navbar);
+        await setChild(this.child);
     }
 
+
+}
+
+function loadSection(section) {
+    return new Promise(resolve => {
+        const c = new SectionLoader();
+        c.setSection(section).then(c => {
+            $("body").append(c);
+            section.run(c.id);
+            resolve(true);
+        });
+    })
+}
+
+/**
+ * is used to set the title of a page
+ * @param {string} title
+ */
+function setTitle(title) {
+    return new Promise(resolve => {
+        if (title !== undefined) {
+            document.getElementsByTagName("head")[0].innerHTML += "<title>" + title + "</title>";
+        }
+        resolve(true);
+    });
+}
+
+function setNavbar(navbar) {
+    return new Promise(resolve => {
+        loadSection(navbar).then();
+        resolve(true);
+    })
+}
+
+function setChild(child) {
+    return new Promise(resolve => {
+        loadSection(child).then();
+        resolve(true);
+    })
 }
 
