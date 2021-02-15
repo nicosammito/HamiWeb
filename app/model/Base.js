@@ -8,6 +8,10 @@ export class Base {
     child;
 
 
+    /**
+     * constructor of class Base
+     * @param {Object} obj
+     */
     constructor(obj) {
 
         if (obj === undefined) {
@@ -27,9 +31,11 @@ export class Base {
 
     }
 
-
+    /**
+     * run's the base
+     * @return {Promise<void>}
+     */
     load = async function () {
-
 
         await setTitle(this.title);
         await setNavbar(this.navbar);
@@ -39,6 +45,11 @@ export class Base {
 
 }
 
+/**
+ * Is loading the child and navbar section
+ * @param section
+ * @return {Promise<void>}
+ */
 function loadSection(section) {
     return new Promise(resolve => {
         const c = new SectionLoader();
@@ -63,17 +74,29 @@ function setTitle(title) {
     });
 }
 
+/**
+ * set's and loads the navbar
+ * @param navbar
+ * @return {Promise<void>}
+ */
 function setNavbar(navbar) {
     return new Promise(resolve => {
-        loadSection(navbar).then();
-        resolve(true);
+        loadSection(navbar).then(() => {
+            resolve(true);
+        });
     })
 }
 
+/**
+ * set's and load's the given child
+ * @param child
+ * @return {Promise<void>}
+ */
 function setChild(child) {
     return new Promise(resolve => {
-        loadSection(child).then();
-        resolve(true);
+        loadSection(child).then(() => {
+            resolve(true);
+        });
     })
 }
 
