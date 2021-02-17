@@ -54,7 +54,7 @@ export class Base {
 /**
  * Is loading the child and navbar section
  * @param section
- * @return {Promise<void>}
+ * @return {Promise<boolean>}
  */
 function loadSection(section) {
     return new Promise(resolve => {
@@ -83,7 +83,7 @@ function setTitle(title) {
 /**
  * set's and loads the navbar
  * @param navbar
- * @return {Promise<void>}
+ * @return {Promise<boolean>}
  */
 function setNavbar(navbar) {
     return new Promise(resolve => {
@@ -96,7 +96,7 @@ function setNavbar(navbar) {
 /**
  * set's and load's the given child
  * @param child
- * @return {Promise<void>}
+ * @return {Promise<boolean>}
  */
 function setChild(child) {
     return new Promise(resolve => {
@@ -109,7 +109,7 @@ function setChild(child) {
 /**
  * set's the meta description
  * @param {string} description
- * @return {Promise<void>}
+ * @return {Promise<boolean>}
  */
 function setDescription(description) {
     return new Promise(resolve => {

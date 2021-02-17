@@ -42,15 +42,12 @@ function addClasses(obj) {
     try{
         const button = document.getElementById(obj.content).getElementsByTagName("button")[0];
 
-        obj.classes.forEach(
-            function (value) {
-
+        obj.classes.forEach(value => {
                 button.classList.add(value);
             }
         );
     }catch (e) {
-        const error = new BaseFailure();
-        error.load(e);
+        throw new BaseError(e);
     }
 }
 
