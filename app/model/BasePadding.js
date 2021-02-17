@@ -1,6 +1,5 @@
-import {IBaseSection} from "./IBaseSection.js";
 import {SectionLoader} from "./SectionLoader.js";
-import {BaseFailure} from "./ErrorHandler.js";
+import {BaseError} from "./BaseError.js";
 
 export const BasePaddingSize = {
     padding_5px: "padding-5px",
@@ -48,11 +47,8 @@ export function BasePadding(pSections, padding) {
                     })
                 })
         }catch (e) {
-            const error = new BaseFailure();
-            error.load(e);
+            throw new BaseError(e);
         }
     }
 
 }
-
-BasePadding.prototype = IBaseSection;
