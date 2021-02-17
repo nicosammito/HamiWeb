@@ -1,11 +1,13 @@
 import {SectionLoader} from "./SectionLoader.js";
-import {BaseFailure} from "./ErrorHandler.js";
+import {BaseError} from "./BaseError.js";
+
 
 export class Base {
 
     title;
     navbar;
     child;
+    description;
 
 
     /**
@@ -15,7 +17,7 @@ export class Base {
     constructor(obj) {
 
         if (obj === undefined) {
-            throw new Error("Object is undefined");
+            throw new BaseError("Object is undefined");
         }
 
         if (obj.title !== undefined) {
@@ -28,6 +30,9 @@ export class Base {
         if (obj.child !== undefined) {
             this.child = obj.child;
         }
+        if(obj.description !== undefined){
+            this.description = obj.description;
+        }
 
     }
 
@@ -38,6 +43,7 @@ export class Base {
     load = async function () {
 
         await setTitle(this.title);
+        await setDescription(this.description);
         await setNavbar(this.navbar);
         await setChild(this.child);
     }
@@ -98,5 +104,20 @@ function setChild(child) {
             resolve(true);
         });
     })
+}
+
+/**
+ * set's the meta description
+ * @param {string} description
+ * @return {Promise<void>}
+ */
+function setDescription(description) {
+    return new Promise(resolve => {
+        if (description !== undefined) {
+            document.getElementsByTagName("head")[0].innerHTML += "<meta name='description' content='"+description+"'>";
+        }
+        resolve(true);
+    });
+
 }
 
