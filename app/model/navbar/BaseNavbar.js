@@ -1,6 +1,5 @@
-import { IBaseSection } from "../IBaseSection.js";
-import { BaseFailure } from "../ErrorHandler.js";
 import {SectionLoader} from "../SectionLoader.js";
+import {BaseError} from "../BaseError.js";
 
 export const BaseNavbarType = {
     normal: "normal",
@@ -9,121 +8,107 @@ export const BaseNavbarType = {
 }
 
 export const BaseNavbarPosition = {
-    right : "right",
-    left : "left"
+    right: "right",
+    left: "left"
 }
 
-export function BaseNavbar(navbarType = BaseNavbarConst.normal) {
+export class BaseNavbar {
 
-    let navbarAttributeType = navbarType;
-    let name = "{ Company name }";
-    let navbaritemsleft = [];
-    let navbaritemsright = [];
-    let contentid;
+    type = BaseNavbarType.normal;
+    title = "YourWebsite.com";
+    list;
+    contentid;
 
+    getPath = "./app/view/navbar/BaseNavbar.html";
+    getClassNames = ["navbar", "navbar-expand-lg", "navbar-light", "bg-light"];
+    getTagName = "nav";
 
-    this.getPath = "./app/view/navbar/BaseNavbar.html";
-
-    this.getClassNames = ["navbar","navbar-expand-lg", "navbar-light", "bg-light"];
-
-    this.getTagName = "nav";
-
-    this.run = async function (c) {
-        contentid = c;
-        await setNavbarType();
-        await setNavbarItemsLeft();
-        await setNavbarItemsRight();
-        await setName();
-    }
-
-    this.setName = function (pname) {
-        name = pname;
-    }
-
-    this.addNavbarItem = function (pitem, pposotion) {
-
-        if(pposotion === BaseNavbarPosition.left){
-            navbaritemsleft.push(pitem);
-        }else if (pposotion === BaseNavbarPosition.right){
-            navbaritemsright.push(pitem);
+    constructor(obj) {
+        if (obj === undefined) {
+            throw new BaseError("Object is undefined!");
         }
-
-    }
-
-    async function setNavbarType() {
-        try {
-            const navbar = document.getElementById(contentid);
-            switch (navbarAttributeType) {
-                case BaseNavbarType.stickytop:
-                    navbar.className += " sticky-top";
-                    break;
-                case BaseNavbarType.fixed:
-                    navbar.className += " fixed-top";
-                    break;
-                default:
-                    break;
+        if (obj.name !== undefined) {
+            this.title = obj.name;
+        }
+        if (obj.list !== undefined) {
+            if (Array.isArray(obj.list)) {
+                this.list = obj.list;
+            } else {
+                throw new BaseError("List is not an Array!");
             }
-        } catch (e) {
-            console.error(e);
-            const error = new BaseFailure();
-            error.load(e.message);
-        }
-    }
-
-    async function setNavbarItemsLeft() {
-        try {
-            const navbaritem = document.getElementById(contentid).getElementsByClassName("navbar-nav")[0];
-            navbaritem.innerHTML = "";
-            navbaritemsleft.forEach(
-                function (item, index, array) {
-                    const setS = new SectionLoader();
-                    setS.setSection(item).then(c =>{
-                        navbaritem.appendChild(c);
-                        item.run(c.id);
-                    })
-                }
-            )
-        } catch (e) {
-            console.error(e);
-            const error = new BaseFailure();
-            error.load(e.message);
-
         }
 
-    }
-    async function setNavbarItemsRight() {
-        try {
-            const navbaritem = document.getElementById(contentid).getElementsByClassName("list-unstyled")[0];
-            navbaritem.innerHTML = "";
-            navbaritemsright.forEach(
-                function (item, index, array) {
-                    const setS = new SectionLoader();
-                    setS.setSection(item).then(c =>{
-                        navbaritem.appendChild(c);
-                        item.run(c.id);
-                    })
-                }
-            )
-        } catch (e) {
-            console.error(e);
-            const error = new BaseFailure();
-            error.load(e.message);
-
+        if (obj.type !== undefined) {
+            this.type = obj.type;
         }
 
     }
 
-    async function setName() {
-        try {
-            document.getElementById(contentid).getElementsByClassName("navbar-brand")[0].innerHTML = name;
-        } catch (e) {
-            console.error(e);
-            const error = new BaseFailure();
-            error.load(e.message);
-        }
-
+    run = async function (c) {
+        this.contentid = c;
+        await setTitle(this);
+        await setNavbarType(this);
+        await setNavbarItems(this);
     }
+
 
 }
 
-BaseNavbar.prototype = IBaseSection;
+function setNavbarType(obj) {
+    try {
+        const navbar = document.getElementById(obj.contentid);
+        switch (obj.type) {
+            case BaseNavbarType.stickytop:
+                navbar.className += " sticky-top";
+                break;
+            case BaseNavbarType.fixed:
+                navbar.className += " fixed-top";
+                break;
+            default:
+                navbar.className += " normal";
+                break;
+        }
+    } catch (e) {
+        throw new BaseError(e);
+    }
+}
+
+function setNavbarItems(obj) {
+    return new Promise(resolve => {
+        try {
+            const navbarItemsLeft = document.getElementById(obj.contentid).getElementsByClassName("navbar-nav")[0];
+            const navbarItemsRight = document.getElementById(obj.contentid).getElementsByClassName("list-unstyled")[0];
+            navbarItemsLeft.innerHTML = "";
+            navbarItemsRight.innerHTML = "";
+            for (let i = 0; i < obj.list.length; i++) {
+                const setS = new SectionLoader();
+                const item = obj.list[i];
+                setS.setSection(item).then(c => {
+                    if (item.position === undefined || item.position === BaseNavbarPosition.left) {
+                        navbarItemsLeft.appendChild(c);
+                        item.run(c.id);
+                        resolve(true)
+                    } else {
+                        navbarItemsRight.appendChild(c);
+                        item.run(c.id);
+                        resolve(true)
+                    }
+                })
+            }
+            resolve(true)
+        } catch (e) {
+            throw new BaseError(e);
+        }
+    })
+
+
+}
+
+function setTitle(obj) {
+    try {
+        document.getElementById(obj.contentid).getElementsByClassName("navbar-brand")[0].innerHTML = obj.title;
+    } catch (e) {
+        throw new BaseError(e);
+    }
+
+}
