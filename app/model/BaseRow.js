@@ -1,4 +1,3 @@
-import {IBaseSection} from "./IBaseSection.js";
 import {SectionLoader} from "./SectionLoader.js";
 
 export function BaseRow(pSections) {
@@ -43,5 +42,3 @@ export function BaseRow(pSections) {
 
 
 }
-
-BaseRow.prototype = IBaseSection;

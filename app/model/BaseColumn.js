@@ -1,5 +1,5 @@
-import {IBaseSection} from "./IBaseSection.js";
 import {SectionLoader} from "./SectionLoader.js";
+import {BaseError} from "./BaseError.js";
 
 export const BaseColumnSize = {
     col_12: "col-12",
@@ -73,12 +73,10 @@ export function BaseColumn(pSections, columnsize) {
                 }
             )
         }catch (e) {
-            console.error(e);
+            throw new BaseError(e);
         }
 
     }
 
 
 }
-
-BaseColumn.prototype = IBaseSection;

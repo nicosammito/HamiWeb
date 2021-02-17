@@ -1,6 +1,6 @@
-import {IBaseSection} from "./IBaseSection.js";
-import {BaseFailure} from "./ErrorHandler.js";
+
 import {SectionLoader} from "./SectionLoader.js";
+import {BaseError} from "./BaseError.js";
 
 export function BaseContainer(pSections) {
 
@@ -41,12 +41,9 @@ export function BaseContainer(pSections) {
                     })
                 })
         }catch (e) {
-            const error = new BaseFailure();
-            error.load(e);
+            throw new BaseError(e);
         }
     }
 
 
 }
-
-BaseContainer.prototype = IBaseSection;

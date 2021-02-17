@@ -1,11 +1,13 @@
 import {SectionLoader} from "./SectionLoader.js";
-import {BaseFailure} from "./ErrorHandler.js";
+import {BaseError} from "./BaseError.js";
+
 
 export class Base {
 
     title;
     navbar;
     child;
+    description;
 
 
     /**
@@ -15,7 +17,7 @@ export class Base {
     constructor(obj) {
 
         if (obj === undefined) {
-            throw new Error("Object is undefined");
+            throw new BaseError("Object is undefined");
         }
 
         if (obj.title !== undefined) {
@@ -28,6 +30,9 @@ export class Base {
         if (obj.child !== undefined) {
             this.child = obj.child;
         }
+        if(obj.description !== undefined){
+            this.description = obj.description;
+        }
 
     }
 
@@ -38,6 +43,7 @@ export class Base {
     load = async function () {
 
         await setTitle(this.title);
+        await setDescription(this.description);
         await setNavbar(this.navbar);
         await setChild(this.child);
     }
@@ -48,7 +54,7 @@ export class Base {
 /**
  * Is loading the child and navbar section
  * @param section
- * @return {Promise<void>}
+ * @return {Promise<boolean>}
  */
 function loadSection(section) {
     return new Promise(resolve => {
@@ -77,7 +83,7 @@ function setTitle(title) {
 /**
  * set's and loads the navbar
  * @param navbar
- * @return {Promise<void>}
+ * @return {Promise<boolean>}
  */
 function setNavbar(navbar) {
     return new Promise(resolve => {
@@ -90,7 +96,7 @@ function setNavbar(navbar) {
 /**
  * set's and load's the given child
  * @param child
- * @return {Promise<void>}
+ * @return {Promise<boolean>}
  */
 function setChild(child) {
     return new Promise(resolve => {
@@ -98,5 +104,20 @@ function setChild(child) {
             resolve(true);
         });
     })
+}
+
+/**
+ * set's the meta description
+ * @param {string} description
+ * @return {Promise<boolean>}
+ */
+function setDescription(description) {
+    return new Promise(resolve => {
+        if (description !== undefined) {
+            document.getElementsByTagName("head")[0].innerHTML += "<meta name='description' content='"+description+"'>";
+        }
+        resolve(true);
+    });
+
 }
 
