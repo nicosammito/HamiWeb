@@ -1,9 +1,6 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta http-equiv='cache-control' content='no-cache'>
-    <meta http-equiv='expires' content='0'>
-    <meta http-equiv='pragma' content='no-cache'>
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -16,50 +13,30 @@
 </head>
 <body>
 <script async type="module">
+    let count = 0;
 
-    import {
-        Base,
-        BaseNavbar,
-        BaseNavbarLink,
-        BaseNavbarType,
-        BaseNavbarPosition,
-        BaseNavbarButton,
-        BaseContainer,
-        BaseRow, BaseColumn, BaseColumnSize, BasePadding, BasePaddingSize,
-    } from "./hamiweb.min.js";
+    function counter() {
+        count++;
+        return "Counter: " + count;
+    }
 
+    import * as HamiWeb from "./hamiweb.min.js";
 
-
-    //Navbar
-    const baseNavbar = new BaseNavbar(BaseNavbarType.normal);
-    baseNavbar.setName("YourServer.net");
-    baseNavbar.addNavbarItem(new BaseNavbarLink("Startseite", "index.html"), BaseNavbarPosition.left);
-    baseNavbar.addNavbarItem(new BaseNavbarLink("Über Uns", "index.html"), BaseNavbarPosition.left);
-    baseNavbar.addNavbarItem(new BaseNavbarButton("Team", "index.html", "btn-success"), BaseNavbarPosition.right);
-
-    //Container
-    const container = new BaseContainer([
-        new BaseRow([
-            new BaseColumn([
-                new BasePadding([
-                    baseNavbar
-                ], BasePaddingSize.padding_10px)
-            ], BaseColumnSize.col_md_6),
-            new BaseColumn([
-                new BasePadding([
-                    baseNavbar
-                ], BasePaddingSize.padding_10px)
-            ], BaseColumnSize.col_md_6)
-        ])
-    ]);
-
-    //base
-    const base = new Base({
+    const base = new HamiWeb.Base({
         title: "test",
-        navbar: baseNavbar,
-        child: container
+        navbar: new HamiWeb.BaseNavbar({
+            name: "HamiWeb.com",
+            type: HamiWeb.BaseNavbarType.normal,
+            list: [
+                new HamiWeb.BaseNavbarLink({
+                    name: "Startseite",
+                    onclick: new HamiWeb.BaseFunction((node) => {
+                        node.innerText = counter();
+                    })
+                })
+            ]
+        })
     });
-
 
     base.load();
 </script>
