@@ -100,9 +100,12 @@ function setNavbar(navbar) {
  */
 function setChild(child) {
     return new Promise(resolve => {
-        loadSection(child).then(() => {
-            resolve(true);
-        });
+        if(child !== undefined){
+            loadSection(child).then(() => {
+                resolve(true);
+            });
+        }
+
     })
 }
 
