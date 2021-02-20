@@ -1,6 +1,5 @@
 import {BaseFunction} from "../BaseFunction.js";
 import {BaseError} from "../BaseError.js";
-import {BaseChange} from "../BaseChange.js";
 
 export class BaseNavbarLink {
 
@@ -16,6 +15,10 @@ export class BaseNavbarLink {
     getClassNames = ["nav-item"];
     getTagName = "li";
 
+    /**
+     *  constructor of BaseNavbarLink
+     * @param {Object} obj
+     */
     constructor(obj) {
 
         if (obj === undefined) {
@@ -34,22 +37,27 @@ export class BaseNavbarLink {
             this.position = obj.position;
         }
         if (obj.onclick !== undefined) {
-            if (obj.onclick instanceof BaseFunction || obj.onclick instanceof BaseChange) {
+            if (obj.onclick instanceof BaseFunction) {
                 this.onclick = obj.onclick;
             } else {
-                throw new BaseError("Onclick must be type of BaseFunction or BaseChange!");
+                throw new BaseError("Onclick must be instance of BaseFunction!");
             }
         }
         if (obj.onhover !== undefined) {
             if (obj.onhover instanceof BaseFunction) {
                 this.onhover = obj.onhover;
             } else {
-                throw new BaseError("Onhover must be type of BaseFunction!");
+                throw new BaseError("Onclick must be instance of BaseFunction!");
             }
         }
 
     }
 
+    /**
+     * run's the BaseNavbarLink
+     * @param c
+     * @return {Promise<void>}
+     */
     run = async function (c) {
         this.contentid = c;
         await setName(this);
@@ -60,6 +68,11 @@ export class BaseNavbarLink {
 
 }
 
+/**
+ * set's all events with given BaseFunction
+ * @param {Object} obj
+ * @return {Promise<boolean>}
+ */
 function setEventListener(obj) {
     return new Promise(resolve => {
         if (obj.onclick !== undefined) {
@@ -75,6 +88,12 @@ function setEventListener(obj) {
 
 }
 
+
+/**
+ * set's the name
+ * @param {Object}obj
+ * @return {Promise<boolean>}
+ */
 function setName(obj) {
 
     return new Promise(resolve => {
@@ -84,6 +103,12 @@ function setName(obj) {
     })
 }
 
+
+/**
+ * set's the link
+ * @param {Object} obj
+ * @return {Promise<boolean>}
+ */
 function setLink(obj) {
     return new Promise(resolve => {
         if (obj.link !== undefined) {
