@@ -1,5 +1,6 @@
 import {SectionLoader} from "./SectionLoader.js";
 import {BaseError} from "./BaseError.js";
+import {BaseFunction} from "./BaseFunction.js";
 
 
 export class Base {
@@ -8,6 +9,7 @@ export class Base {
     navbar;
     child;
     description;
+    onload;
 
 
     /**
@@ -33,6 +35,13 @@ export class Base {
         if(obj.description !== undefined){
             this.description = obj.description;
         }
+        if(obj.onload !== undefined){
+            if(obj.onload instanceof BaseFunction){
+                this.onload = obj.onload;
+            }else {
+                throw new BaseError("Onload must be instance of BaseFunction!");
+            }
+        }
 
     }
 
@@ -42,6 +51,7 @@ export class Base {
      */
     load = async function () {
 
+        await setLoadEvent(this.onload);
         await setTitle(this.title);
         await setDescription(this.description);
         await setNavbar(this.navbar);
@@ -122,5 +132,21 @@ function setDescription(description) {
         resolve(true);
     });
 
+}
+
+
+/**
+ * set's load event if given
+ * @param onload
+ */
+function setLoadEvent(onload) {
+    return new Promise(resolve => {
+        if(onload !== undefined){
+            window.addEventListener('load', () => {
+                alert("test");
+            });
+            resolve(true);
+        }else resolve(true);
+    })
 }
 

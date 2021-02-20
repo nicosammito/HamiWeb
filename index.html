@@ -24,6 +24,9 @@
 
     const base = new HamiWeb.Base({
         title: "test",
+        onload: new HamiWeb.BaseFunction(() => {
+           alert("test");
+        }),
         navbar: new HamiWeb.BaseNavbar({
             name: "HamiWeb.com",
             type: HamiWeb.BaseNavbarType.normal,
