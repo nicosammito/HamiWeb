@@ -2,7 +2,7 @@ import {BaseError} from "./BaseError.js";
 
 let count = 1;
 
-export class SectionLoader{
+export class SectionLoader {
 
     /**
      *
@@ -10,9 +10,16 @@ export class SectionLoader{
      */
     setSection = function (section) {
         return new Promise((resolve) => {
+            if (typeof section.run === "undefined") {
+                throw new BaseError("run function is not set in section " + section.constructor.name + "!")
+            } else if (section.contentid === undefined) {
+                throw new BaseError("contentid is not set in section " + section.constructor.name + "!");
+            } else if (typeof section.getTagName === "undefined") {
+                throw new BaseError("getTagName is not set in section " + section.constructor.name + "!");
+            }
             this.loadFile(section).then(response => {
                 const dom = document.createElement(section.getTagName.toString());
-                if (section.getClassNames != null) {
+                if (section.getClassNames !== undefined) {
                     section.getClassNames.forEach(value => {
                         dom.classList.add(value);
                     });
@@ -24,6 +31,7 @@ export class SectionLoader{
             });
         });
     }
+
     /**
      *
      * @param section

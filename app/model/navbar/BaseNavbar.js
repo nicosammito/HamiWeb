@@ -17,7 +17,7 @@ export class BaseNavbar {
     type = BaseNavbarType.normal;
     title = "YourWebsite.com";
     list;
-    contentid;
+    contentid = null;
 
     getPath = "./app/view/navbar/BaseNavbar.html";
     getClassNames = ["navbar", "navbar-expand-lg", "navbar-light", "bg-light"];

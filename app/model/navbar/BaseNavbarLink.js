@@ -10,7 +10,7 @@ export class BaseNavbarLink {
     position;
     onclick;
     onhover;
-    contentid;
+    contentid = null;
 
     getPath = "./app/view/navbar/BaseNavbarLink.html";
     getClassNames = ["nav-item"];
