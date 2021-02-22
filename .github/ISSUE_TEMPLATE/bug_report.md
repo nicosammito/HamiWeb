@@ -1,6 +1,10 @@
 ---
 name: Bug Report
 about: Report bugs you encountered while using our framework
+title: ''
+labels: bug
+assignees: ''
+
 ---
 
 # Bug Report
