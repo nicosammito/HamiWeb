@@ -1,6 +1,10 @@
 ---
 name: Feature Request
 about: Request new features for our framework
+title: ''
+labels: enhancement
+assignees: ''
+
 ---
 
 # Feature Request
