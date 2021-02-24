@@ -10,6 +10,11 @@ export class Base {
     child;
     description;
     onload;
+    run = false;
+    oldnavbar;
+    oldtitle;
+    oldchild;
+    olddescription;
 
 
     /**
@@ -32,17 +37,16 @@ export class Base {
         if (obj.child !== undefined) {
             this.child = obj.child;
         }
-        if(obj.description !== undefined){
+        if (obj.description !== undefined) {
             this.description = obj.description;
         }
-        if(obj.onload !== undefined){
-            if(obj.onload instanceof BaseFunction){
+        if (obj.onload !== undefined) {
+            if (obj.onload instanceof BaseFunction) {
                 this.onload = obj.onload;
-            }else {
+            } else {
                 throw new BaseError("Onload must be instance of BaseFunction!");
             }
         }
-
     }
 
     /**
@@ -50,12 +54,42 @@ export class Base {
      * @return {Promise<void>}
      */
     load = async function () {
+        if (this.run === false) {
+            this.run = true
+            document.getElementsByTagName("body")[0].innerHTML = "";
+            await setLoadEvent(this.onload);
+            await setTitle(this.title);
+            await setDescription(this.description);
+            await setNavbar(this.navbar);
+            await setChild(this.child);
+        } else {
+            throw new BaseError("Load function can only be called once!");
+        }
+    }
 
-        await setLoadEvent(this.onload);
-        await setTitle(this.title);
-        await setDescription(this.description);
-        await setNavbar(this.navbar);
-        await setChild(this.child);
+
+    /**
+     * reload's all updated sections
+     */
+    reload = function () {
+        if (this.oldnavbar !== JSON.stringify(this.navbar)) {
+            this.navbar.run(this.navbar.contentid).then(() => {
+                this.oldnavbar = JSON.stringify(this.navbar);
+            });
+        }
+        if (this.oldtitle !== JSON.stringify(this.title)) {
+            document.getElementsByTagName("head")[0].getElementsByTagName("title")[0].innerText = this.title;
+            this.oldtitle = JSON.stringify(this.title);
+        }
+        if (this.olddescription !== JSON.stringify(this.description)) {
+            document.getElementsByTagName("head")[0].getElementsByTagName("meta")["description"].content = this.description;
+            this.olddescription = JSON.stringify(this.description);
+        }
+        if (this.oldchild !== JSON.stringify(this.child)) {
+            this.child.run(this.child.contentid).then(() => {
+                this.oldchild = JSON.stringify(this.child);
+            })
+        }
     }
 
 
@@ -110,7 +144,7 @@ function setNavbar(navbar) {
  */
 function setChild(child) {
     return new Promise(resolve => {
-        if(child !== undefined){
+        if (child !== undefined) {
             loadSection(child).then(() => {
                 resolve(true);
             });
@@ -127,11 +161,10 @@ function setChild(child) {
 function setDescription(description) {
     return new Promise(resolve => {
         if (description !== undefined) {
-            document.getElementsByTagName("head")[0].innerHTML += "<meta name='description' content='"+description+"'>";
+            document.getElementsByTagName("head")[0].innerHTML += "<meta name='description' content='" + description + "'>";
         }
         resolve(true);
     });
-
 }
 
 
@@ -141,12 +174,12 @@ function setDescription(description) {
  */
 function setLoadEvent(onload) {
     return new Promise(resolve => {
-        if(onload !== undefined){
+        if (onload !== undefined) {
             window.addEventListener('load', () => {
                 alert("test");
             });
             resolve(true);
-        }else resolve(true);
+        } else resolve(true);
     })
 }
 
