@@ -77,11 +77,13 @@ function setEventListener(obj) {
     return new Promise(resolve => {
         if (obj.onclick !== undefined) {
             document.getElementById(obj.contentid).addEventListener("click", () => {
-                obj.onclick.function(document.getElementById(obj.contentid).getElementsByTagName("a")[0])
+                obj.onclick.function(obj)
             });
         }
         if (obj.onhover !== undefined) {
-            document.getElementById(obj.contentid).addEventListener("mouseover", obj.onhover.function);
+            document.getElementById(obj.contentid).addEventListener("mouseover", () => {
+                obj.onhover.function(obj)
+            });
         }
         resolve(true);
     })
