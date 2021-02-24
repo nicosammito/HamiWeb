@@ -19,7 +19,7 @@ and mobile friendly.**
 ```javascript
 //base
 const base = new HamiWeb.Base({
-    navbar: new HamiWeb.BaseNavbar({
+    navbar: new HamiWeb.BaseNavbar({ //navbar
         type: HamiWeb.BaseNavbarType.normal,
         name: "Hami.Web",
         list: [
@@ -53,6 +53,7 @@ const base = new HamiWeb.Base({
     child: /*body of page*/
 });
 
+base.load();
 ```
 ## Contributors
 - Thanks to [Henrik Steffens](https://github.com/Th3Ph4nt0m) for section ideas
