@@ -15,7 +15,7 @@ export const BaseNavbarPosition = {
 export class BaseNavbar {
 
     type = BaseNavbarType.normal;
-    title = "YourWebsite.com";
+    name = "YourWebsite.com";
     list;
     contentid = null;
 
@@ -28,7 +28,7 @@ export class BaseNavbar {
             throw new BaseError("Object is undefined!");
         }
         if (obj.name !== undefined) {
-            this.title = obj.name;
+            this.name = obj.name;
         }
         if (obj.list !== undefined) {
             if (Array.isArray(obj.list)) {
@@ -106,7 +106,7 @@ function setNavbarItems(obj) {
 
 function setTitle(obj) {
     try {
-        document.getElementById(obj.contentid).getElementsByClassName("navbar-brand")[0].innerHTML = obj.title;
+        document.getElementById(obj.contentid).getElementsByClassName("navbar-brand")[0].innerHTML = obj.name;
     } catch (e) {
         throw new BaseError(e);
     }
