@@ -8,7 +8,7 @@ export class SectionLoader {
      *
      * @param section
      */
-    setSection = function (section) {
+    setSection = (section) => {
         return new Promise((resolve) => {
             if (typeof section.run === "undefined") {
                 throw new BaseError("run function is not set in section " + section.constructor.name + "!")

@@ -21,7 +21,7 @@ export class BaseNavbarButton {
         }
     }
 
-    run = async function (c) {
+    run = async (c) => {
         this.contentid = c;
         await setLink();
         await setText();

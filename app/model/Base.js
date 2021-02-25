@@ -51,9 +51,8 @@ export class Base {
 
     /**
      * run's the base
-     * @return {Promise<void>}
      */
-    load = async function () {
+    load = async () => {
         if (this.run === false) {
             this.run = true
             document.getElementsByTagName("body")[0].innerHTML = "";
@@ -71,7 +70,8 @@ export class Base {
     /**
      * reload's all updated sections
      */
-    reload = function () {
+    reload = () => {
+        console.log("test")
         if (this.oldnavbar !== JSON.stringify(this.navbar)) {
             this.navbar.run(this.navbar.contentid).then(() => {
                 this.oldnavbar = JSON.stringify(this.navbar);
