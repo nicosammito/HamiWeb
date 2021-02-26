@@ -37,6 +37,23 @@
                     })
                 })
             ]
+        }),
+        child: new HamiWeb.BaseContainer({
+            child: [
+                new HamiWeb.BaseNavbar({
+                    type: HamiWeb.BaseNavbarType.normal,
+                    name: "Hami.Web",
+                    list: [
+                        new HamiWeb.BaseNavbarLink({
+                            name: "About Us",
+                            onclick: new HamiWeb.BaseFunction((node) => {
+                                node.name = counter();
+                                base.reload();
+                            })
+                        })
+                    ]
+                })
+            ]
         })
     });
 
