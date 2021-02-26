@@ -22,7 +22,6 @@
 
     import * as HamiWeb from "./hamiweb.min.js";
 
-
     const base = new HamiWeb.Base({
         title: "test",
         description: "test",
@@ -33,16 +32,8 @@
                 new HamiWeb.BaseNavbarLink({
                     name: "About Us",
                     onclick: new HamiWeb.BaseFunction((node) => {
-                        node.name = "Henrik";
-                        node.position = HamiWeb.BaseNavbarPosition.right;
-                        node.onclick = new HamiWeb.BaseFunction((node) => {
-                            node.name = "Niklas";
-                            node.position = HamiWeb.BaseNavbarPosition.left;
-                            base.title = "Niklas";
-                            base.description = "Niklas"
-                            base.reload();
-                        })
-                        base.reload();
+                      node.name = counter();
+                      base.reload();
                     })
                 })
             ]
@@ -50,8 +41,7 @@
     });
 
     base.load();
-
-
+    
 </script>
 </body>
 </html>
