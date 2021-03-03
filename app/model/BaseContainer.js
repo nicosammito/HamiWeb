@@ -54,7 +54,8 @@ export class BaseContainer{
  */
 function setChild(obj){
   return new Promise(resolve => {
-    const node = document.getElementById(obj.contentid) ;
+    const node = document.getElementById(obj.contentid);
+    node.innerHTML = "";
     const sectionLoader = new SectionLoader();
     obj.child.forEach((item) => {
       sectionLoader.setSection(item).then((c) => {
