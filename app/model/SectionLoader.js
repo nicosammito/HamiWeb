@@ -1,4 +1,5 @@
 import {BaseError} from "./BaseError.js";
+import {HamiWebElement} from "./HamiWebElement.js";
 
 let count = 1;
 
@@ -10,12 +11,8 @@ export class SectionLoader {
      */
     setSection = (section) => {
         return new Promise((resolve) => {
-            if (typeof section.run === "undefined") {
-                throw new BaseError("run function is not set in section " + section.constructor.name + "!")
-            } else if (section.contentid === undefined) {
-                throw new BaseError("contentid is not set in section " + section.constructor.name + "!");
-            } else if (typeof section.getTagName === "undefined") {
-                throw new BaseError("getTagName is not set in section " + section.constructor.name + "!");
+            if (!(section instanceof HamiWebElement)) {
+                throw new BaseError(section.constructor.name + " is not instanceof HamiWebElement");
             }
             this.loadFile(section).then(response => {
                 const dom = document.createElement(section.getTagName.toString());
@@ -25,6 +22,9 @@ export class SectionLoader {
                     });
                 }
                 dom.id = count.toString();
+                if(section.element !== null){
+                    dom.id = section.element.id;
+                }
                 count++;
                 dom.innerHTML = response;
                 resolve(dom);
@@ -55,8 +55,7 @@ export class SectionLoader {
                         http.open("GET", section.getPath, false);
                     }
                     http.send();
-                } catch (e) {
-                }
+                } catch (e) {}
             } catch (e) {
                 throw new BaseError(e);
             }

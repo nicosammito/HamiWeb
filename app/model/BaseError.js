@@ -27,7 +27,9 @@ export class BaseError extends Error{
             '        </div>\n' +
             '    </div>\n' +
             '</div>';
-        super(message, ...args);
+        super(message, args);
         this.message = message;
+        this.name = "HamiWebError"; // (different names for different built-in error classes)
+        this.stack = args;
     }
 }
