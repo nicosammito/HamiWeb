@@ -1,7 +1,8 @@
 import {BaseFunction} from "../BaseFunction.js";
 import {BaseError} from "../BaseError.js";
+import {HamiWebElement} from "../HamiWebElement.js";
 
-export class BaseNavbarLink {
+export class BaseNavbarLink extends HamiWebElement{
 
 
     name = "Link";
@@ -9,7 +10,7 @@ export class BaseNavbarLink {
     position;
     onclick;
     onhover;
-    contentid = null;
+    element = null;
 
     getPath = "./app/view/navbar/BaseNavbarLink.html";
     getClassNames = ["nav-item"];
@@ -20,7 +21,7 @@ export class BaseNavbarLink {
      * @param {Object} obj
      */
     constructor(obj) {
-
+        super();
         if (obj === undefined) {
             throw new BaseError("Object is undefined!");
         }
@@ -55,15 +56,14 @@ export class BaseNavbarLink {
 
     /**
      * run's the BaseNavbarLink
-     * @param c
      * @return {Promise<void>}
+     * @param element
      */
-    run = async (c) => {
-        this.contentid = c;
-        await setName(this);
-        await setLink(this);
-        await setEventListener(this);
-
+    run = async (element) => {
+            this.element = element;
+            await setName(this);
+            await setLink(this);
+            await setEventListener(this);
     }
 
 }
@@ -76,12 +76,12 @@ export class BaseNavbarLink {
 function setEventListener(obj) {
     return new Promise(resolve => {
         if (obj.onclick !== undefined) {
-            document.getElementById(obj.contentid).addEventListener("click", () => {
+            obj.element.addEventListener("click", () => {
                 obj.onclick.function(obj)
             });
         }
         if (obj.onhover !== undefined) {
-            document.getElementById(obj.contentid).addEventListener("mouseover", () => {
+            obj.element.addEventListener("mouseover", () => {
                 obj.onhover.function(obj)
             });
         }
@@ -97,9 +97,8 @@ function setEventListener(obj) {
  * @return {Promise<boolean>}
  */
 function setName(obj) {
-
     return new Promise(resolve => {
-        const content = document.getElementById(obj.contentid).getElementsByTagName("a")[0];
+        const content = obj.element.getElementsByTagName("a")[0];
         content.innerHTML = obj.name;
         resolve(true);
     })
@@ -114,7 +113,7 @@ function setName(obj) {
 function setLink(obj) {
     return new Promise(resolve => {
         if (obj.link !== undefined) {
-            const content = document.getElementById(obj.contentid).getElementsByTagName("a")[0];
+            const content = obj.element.getElementsByTagName("a")[0];
             content.href = obj.link;
         }
         resolve(true);
