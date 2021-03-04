@@ -72,9 +72,8 @@ export class Base {
      * reload's all updated sections
      */
     reload = () => {
-        console.log("test")
         if (this.oldnavbar !== JSON.stringify(this.navbar)) {
-            this.navbar.run(this.navbar.contentid).then(() => {
+            this.navbar.run(this.navbar.element).then(() => {
                 this.oldnavbar = JSON.stringify(this.navbar);
             });
         }
@@ -87,7 +86,7 @@ export class Base {
             this.olddescription = JSON.stringify(this.description);
         }
         if (this.oldchild !== JSON.stringify(this.child)) {
-            this.child.run(this.child.contentid).then(() => {
+            this.child.run(this.child.element).then(() => {
                 this.oldchild = JSON.stringify(this.child);
             })
         }
@@ -106,7 +105,7 @@ function loadSection(section) {
         const c = new SectionLoader();
         c.setSection(section).then(c => {
             $("body").append(c);
-            section.run(c.id);
+            section.run(c);
             resolve(true);
         });
     })
